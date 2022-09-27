@@ -25,11 +25,9 @@ public class SphereCollision : MonoBehaviour
         this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
 
         //find the Vector between sphere A and sphere B
-        float ABDistanceX = secondSphere.position.x - transform.position.x;
-        float ABDistanceY = secondSphere.position.y - transform.position.y;
-        float ABDistanceZ = secondSphere.position.z - transform.position.z;
-
-        Vector3 ABVector = new Vector3(ABDistanceX,ABDistanceY,ABDistanceZ);
+        float ABDistanceX = Mathf.Abs(secondSphere.position.x - transform.position.x);
+        float ABDistanceY = Mathf.Abs(secondSphere.position.y - transform.position.y);
+        float ABDistanceZ = Mathf.Abs(secondSphere.position.z - transform.position.z);
 
         float ABLength = Mathf.Sqrt((ABDistanceX * ABDistanceX) + (ABDistanceY * ABDistanceY) + (ABDistanceZ * ABDistanceZ));
 
@@ -37,11 +35,16 @@ public class SphereCollision : MonoBehaviour
 
         float lengthD = Mathf.Sin(angle) * ABLength;
 
+        //check if collision is possible
         if (lengthD < radius * 2)
         {
-            float collisionPointLength = Mathf.Sqrt(((radius + radius) * 2) - (lengthD * 2));
+            float collisionPointLength = Mathf.Sqrt(((radius + radius) * (radius + radius)) - (lengthD * lengthD));
 
             float collisionPoint = ABDistanceZ - collisionPointLength;
+
+            Debug.Log("length : " + collisionPointLength);
+            Debug.Log("Distance : " + ABDistanceZ);
+            Debug.Log("point : " + collisionPoint);
 
             if (collisionPoint <= 0)
             {
