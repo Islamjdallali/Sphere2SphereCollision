@@ -31,20 +31,48 @@ public class SphereCollision : MonoBehaviour
 
         float ABLength = Mathf.Sqrt((ABDistanceX * ABDistanceX) + (ABDistanceY * ABDistanceY) + (ABDistanceZ * ABDistanceZ));
 
-        float angle = Mathf.Acos(ABDistanceZ/ABLength);
+        //Find the angle for each respective axis
+        float angleZ = Mathf.Acos(ABDistanceZ/ABLength);
+        float angleX = Mathf.Acos(ABDistanceX/ABLength);
+        float angleY = Mathf.Acos(ABDistanceY/ABLength);
 
-        float lengthD = Mathf.Sin(angle) * ABLength;
+        //Find the length between the centre of the 2 spheres at the closest approach along the path of the sphere's velocity
+        float lengthDZ = Mathf.Sin(angleZ) * ABLength;
+        float lengthDX = Mathf.Sin(angleX) * ABLength;
+        float lengthDY = Mathf.Sin(angleY) * ABLength;
 
-        //check if collision is possible
-        if (lengthD < radius * 2)
+        //check if collision is possible in the Z axis
+        if (lengthDZ < radius * 2)
         {
-            float collisionPointLength = Mathf.Sqrt(((radius + radius) * (radius + radius)) - (lengthD * lengthD));
+            float collisionPointLength = Mathf.Sqrt(((radius + radius) * (radius + radius)) - (lengthDZ * lengthDZ));
 
             float collisionPoint = ABDistanceZ - collisionPointLength;
 
-            Debug.Log("length : " + collisionPointLength);
-            Debug.Log("Distance : " + ABDistanceZ);
-            Debug.Log("point : " + collisionPoint);
+            if (collisionPoint <= 0)
+            {
+                Debug.Log("Collision Detected");
+            }
+        }
+
+        //check if collision is possible in the X axis
+        if (lengthDX < radius * 2)
+        {
+            float collisionPointLength = Mathf.Sqrt(((radius + radius) * (radius + radius)) - (lengthDX * lengthDX));
+
+            float collisionPoint = ABDistanceX - collisionPointLength;
+
+            if (collisionPoint <= 0)
+            {
+                Debug.Log("Collision Detected");
+            }
+        }
+
+        //check if collision is possible in the Y axis
+        if (lengthDY < radius * 2)
+        {
+            float collisionPointLength = Mathf.Sqrt(((radius + radius) * (radius + radius)) - (lengthDY * lengthDY));
+
+            float collisionPoint = ABDistanceY - collisionPointLength;
 
             if (collisionPoint <= 0)
             {
