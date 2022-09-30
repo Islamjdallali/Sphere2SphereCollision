@@ -5,18 +5,53 @@ using UnityEngine;
 public class PlaneCollision : MonoBehaviour
 {
     public Transform planeTransform;
+    public Vector3 sphereStartPos;
 
     public Vector3 velocityVector;
 
     float radius;
+
+    float startSpherePlaneDistance;
+
+    float SPVectorX;
+    float SPVectorY;
+    float SPVectorZ;
+
+    float ABLength;
+
+    float vectorSpherePlaneDistanceAngleY;
+
+    float spherePlaneAngleY;
+    float spherePlaneAngleZ;
+    float spherePlaneAngleX;
 
     // Start is called before the first frame update
     void Start()
     {
         //Get Sphere mesh radius
         Mesh mesh = GetComponent<MeshFilter>().mesh;
-        Vector3[] vertices = mesh.vertices;
-        radius = Vector3.Distance(transform.position, vertices[0]);
+        Bounds bounds = mesh.bounds;
+        radius = bounds.extents.x;
+
+        sphereStartPos = new Vector3(gameObject.GetComponent<Transform>().position.x, gameObject.GetComponent<Transform>().position.y, gameObject.GetComponent<Transform>().position.z);
+
+        //find the Vector between the sphere and the plane
+        SPVectorX = Mathf.Abs(planeTransform.position.x - transform.position.x);
+        SPVectorY = Mathf.Abs(planeTransform.position.y - transform.position.y);
+        SPVectorZ = Mathf.Abs(planeTransform.position.z - transform.position.z);
+
+        ABLength = Mathf.Sqrt((SPVectorX * SPVectorX) + (SPVectorY * SPVectorY) + (SPVectorZ * SPVectorZ));
+
+        //find the angle between the sphere vector and the plane
+        spherePlaneAngleZ = 90 - (Mathf.Acos(SPVectorZ / ABLength) * Mathf.Rad2Deg);
+        spherePlaneAngleX = 90 - (Mathf.Acos(SPVectorX / ABLength) * Mathf.Rad2Deg);
+        spherePlaneAngleY = 90 - (Mathf.Acos(SPVectorY / ABLength) * Mathf.Rad2Deg);
+
+        //this gives us the shortest distance betweent the sphere and the plane at its start position
+        startSpherePlaneDistance = Mathf.Sin(spherePlaneAngleY) * ABLength;
+
+        //this gives us the angle between the sphere vector and the startSpherePlaneDistance
+        vectorSpherePlaneDistanceAngleY = 180 - (90 + spherePlaneAngleY);
     }
 
     // Update is called once per frame
@@ -24,19 +59,23 @@ public class PlaneCollision : MonoBehaviour
     {
         this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
 
-        //find the Vector between the sphere and the plane
-        float ABDistanceX = Mathf.Abs(planeTransform.position.x - transform.position.x);
-        float ABDistanceY = Mathf.Abs(planeTransform.position.y - transform.position.y);
-        float ABDistanceZ = Mathf.Abs(planeTransform.position.z - transform.position.z);
+        float vCY = (startSpherePlaneDistance - radius) / Mathf.Cos(vectorSpherePlaneDistanceAngleY);
 
-        float ABLength = Mathf.Sqrt((ABDistanceX * ABDistanceX) + (ABDistanceY * ABDistanceY) + (ABDistanceZ * ABDistanceZ));
+        //check to see if a collision is possible
+        if (vCY <= ABLength)
+        {
+            float expectedYPos = (sphereStartPos.y) - (SPVectorY * (1/ABLength) * vCY);
 
-        float angleZ = Mathf.Acos(ABDistanceZ / ABLength);
-        float angleX = Mathf.Acos(ABDistanceX / ABLength);
-        float angleY = Mathf.Acos(ABDistanceY / ABLength);
+            //Debug.Log("SPVectorY : " + SPVectorY);
+            //Debug.Log("AB Length : " + ABLength);
+            //Debug.Log("VCY : " + vCY);
 
-        float lengthD = Mathf.Sin(90 - (angleY * Mathf.Rad2Deg)) * ABLength;
+            Debug.Log("Expected Pos : " + expectedYPos);
 
-        Debug.Log(lengthD);
+            if (transform.position.y <= expectedYPos)
+            {
+                Debug.Log("Collided");
+            }
+        }
     }
 }

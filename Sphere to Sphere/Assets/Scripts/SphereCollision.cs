@@ -15,8 +15,8 @@ public class SphereCollision : MonoBehaviour
     {
         //Get Sphere mesh radius
         Mesh mesh = GetComponent<MeshFilter>().mesh;
-        Vector3[] vertices = mesh.vertices;
-        radius = Vector3.Distance(transform.position, vertices[0]);
+        Bounds bounds = mesh.bounds;
+        radius = bounds.extents.x;
     }
 
     // Update is called once per frame
