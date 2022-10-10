@@ -62,9 +62,8 @@ public class PlaneCollision : MonoBehaviour
         if (vCY <= velocityVectorMagnitude)
         {
             Vector3 addedvCY = vCY * velocityVector / velocityVectorMagnitude;
-            float addedvCYMag = Mathf.Sqrt((addedvCY.x * addedvCY.x) + (addedvCY.y * addedvCY.y) + (addedvCY.z * addedvCY.z));
 
-            if (addedvCYMag <= 0.01f)
+            if (addedvCY.y >= 0)
             {
                 Debug.Log("Collided");
                 velocityVector = new Vector3(0,0,0);
