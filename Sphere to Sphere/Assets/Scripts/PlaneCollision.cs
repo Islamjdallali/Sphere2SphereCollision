@@ -29,8 +29,6 @@ public class PlaneCollision : MonoBehaviour
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Bounds bounds = mesh.bounds;
         radius = bounds.extents.x;
-
-        sphereStartPos = new Vector3(gameObject.GetComponent<Transform>().position.x, gameObject.GetComponent<Transform>().position.y, gameObject.GetComponent<Transform>().position.z);
     }
 
     // Update is called once per frame
