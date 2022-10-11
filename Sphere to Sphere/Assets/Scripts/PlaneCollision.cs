@@ -10,21 +10,17 @@ public class PlaneCollision : MonoBehaviour
     public Vector3 velocityVector;
     public float velocityVectorMagnitude;
 
-    float radius;
+    private float radius;
 
-    float startSpherePlaneDistance;
+    private float SPVectorX;
+    private float SPVectorY;
+    private float SPVectorZ;
 
-    float SPVectorX;
-    float SPVectorY;
-    float SPVectorZ;
+    private float ABLength;
 
-    float ABLength;
-
-    float vectorSpherePlaneDistanceAngleY;
-
-    float spherePlaneAngleY;
-    float spherePlaneAngleZ;
-    float spherePlaneAngleX;
+    private float spherePlaneAngleY;
+    private float spherePlaneAngleZ;
+    private float spherePlaneAngleX;
 
     // Start is called before the first frame update
     void Start()
