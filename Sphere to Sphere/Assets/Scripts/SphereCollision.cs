@@ -8,6 +8,8 @@ public class SphereCollision : MonoBehaviour
 
     public Vector3 velocityVector;
 
+    public SphereCollisionResponse sphereCollisionResponse;
+
     float radius;
 
     // Start is called before the first frame update
@@ -22,7 +24,7 @@ public class SphereCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
+        //this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
 
         //find the Vector between sphere A and sphere B
         float ABDistanceX = Mathf.Abs(secondSphere.position.x - transform.position.x);
@@ -51,6 +53,7 @@ public class SphereCollision : MonoBehaviour
             if (collisionPoint <= 0)
             {
                 Debug.Log("Collision Detected");
+                sphereCollisionResponse.CollisionResponse(1 - angleZ,velocityVector);
             }
         }
 
