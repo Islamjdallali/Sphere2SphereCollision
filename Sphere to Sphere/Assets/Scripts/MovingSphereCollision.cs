@@ -8,6 +8,8 @@ public class MovingSphereCollision : MonoBehaviour
     public Vector3 velocityVector;
     public Vector3 secondSphereVelocityVector;
 
+    private Vector3 collisionPoint;
+
 
     private float radius;
 
@@ -22,9 +24,9 @@ public class MovingSphereCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
+        this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
 
-        //otherSphere.Translate(secondSphereVelocityVector * Time.deltaTime);
+        otherSphere.Translate(secondSphereVelocityVector * Time.deltaTime);
 
         float xPositionDifference = transform.position.x - otherSphere.position.x;
         float yPositionDifference = transform.position.y - otherSphere.position.y;
@@ -41,17 +43,26 @@ public class MovingSphereCollision : MonoBehaviour
         float t = (-b + Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c)))/(2 * a);
         float t2 = (-b - Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c)))/(2 * a);
 
-        Debug.Log(t);
+        Debug.Log("t1 : " + t);
+        Debug.Log("t2 : " + t2);
 
         //if t is the correct solution
-        if (t > 0 && t < 1)
+        if (t < t2)
         {
-            Debug.Log("Collision possible");
+            if (t > 0 && t < 1)
+            {
+                Debug.Log("Collision possible");
+                collisionPoint = transform.position + velocityVector * t;
+            }
         }
-        else if (t2 > 0 && t2 < 1)
+        else if (t2 < t)
         {
-            //Debug.Log("Collision possible");
+            if (t2 > 0 && t2 < 1)
+            {
+                Debug.Log("Collision possible");
+                collisionPoint = transform.position + velocityVector * t;
+                Debug.Log("Collision Point : " + collisionPoint);
+            }
         }
-
     }
 }
