@@ -7,11 +7,15 @@ public class SphereCollisionResponse : MonoBehaviour
     public float firstSphereMass;
     public float secondSphereMass;
 
+    public SphereCollision sphereCollision;
+
     [Range(0f,1f)]
     public float coefficientOfRestitution;
 
     /* Find the angle between the spheres, cos(a) and find the impulse
         p2 - p1 / |p2 - p1|
+
+        work out the direction of response and multiply that by the impulse(magnitude)
 
         I = eCos(a)v if both masses are the same.
         If not then do I/m2 = eCos(a)vm1.
@@ -24,8 +28,11 @@ public class SphereCollisionResponse : MonoBehaviour
 
         Vector3 finalImpulse = impulse / secondSphereMass;
 
-        Vector3 responseVectorSphere1 = velocity - finalImpulse;
-        
-        Debug.Log(responseVectorSphere1);
+        Vector3 responseVectorSphere1 = new Vector3(0,0,0);
+
+        Vector3 responseVectorSphere2 = velocity - finalImpulse;
+
+        sphereCollision.velocityVector = responseVectorSphere1;
+        sphereCollision.secondSphereVelocityVector = responseVectorSphere2;
     }
 }
