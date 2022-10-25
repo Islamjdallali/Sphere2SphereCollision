@@ -22,9 +22,9 @@ public class MovingSphereCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
+        //this.gameObject.transform.Translate(velocityVector * Time.deltaTime);
 
-        otherSphere.Translate(secondSphereVelocityVector * Time.deltaTime);
+        //otherSphere.Translate(secondSphereVelocityVector * Time.deltaTime);
 
         float xPositionDifference = transform.position.x - otherSphere.position.x;
         float yPositionDifference = transform.position.y - otherSphere.position.y;
@@ -36,10 +36,12 @@ public class MovingSphereCollision : MonoBehaviour
 
         float a = Mathf.Pow(xVectorDifference,2) + Mathf.Pow(yVectorDifference,2) + Mathf.Pow(zVectorDifference,2);
         float b = (2 * xPositionDifference * xVectorDifference) + (2 * yPositionDifference * yVectorDifference) + (2 * zPositionDifference * zVectorDifference);
-        float c = Mathf.Pow(xPositionDifference,2) + Mathf.Pow(yPositionDifference,2) + Mathf.Pow(zPositionDifference,2) - Mathf.Pow(2 * radius,2);
+        float c = Mathf.Pow(xPositionDifference,2) + Mathf.Pow(yPositionDifference,2) + Mathf.Pow(zPositionDifference,2) - Mathf.Pow(radius + radius,2);
 
-        float t = -b + Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c))/(2 * a);
-        float t2 = -b - Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c))/(2 * a);
+        float t = (-b + Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c)))/(2 * a);
+        float t2 = (-b - Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c)))/(2 * a);
+
+        Debug.Log(t);
 
         //if t is the correct solution
         if (t > 0 && t < 1)
@@ -48,7 +50,7 @@ public class MovingSphereCollision : MonoBehaviour
         }
         else if (t2 > 0 && t2 < 1)
         {
-            Debug.Log("Collision possible");
+            //Debug.Log("Collision possible");
         }
 
     }
