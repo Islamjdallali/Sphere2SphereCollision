@@ -9,6 +9,11 @@ public class SphereCollisionResponse : MonoBehaviour
 
     public SphereCollision sphereCollision;
 
+    [SerializeField] Vector3 responseVectorSphere2;
+    [SerializeField] Vector3 responseVectorSphere1;
+
+    [SerializeField] private Vector3 force;
+
     [Range(0f,1f)]
     public float coefficientOfRestitution;
 
@@ -24,13 +29,10 @@ public class SphereCollisionResponse : MonoBehaviour
 
     public void CollisionResponse(float angle, Vector3 velocity)
     {
-        Vector3 impulse = velocity * firstSphereMass * angle * coefficientOfRestitution;
+        responseVectorSphere2 = (angle * (force / secondSphereMass)) * coefficientOfRestitution;
 
-        Vector3 finalImpulse = impulse / secondSphereMass;
-
-        Vector3 responseVectorSphere1 = new Vector3(0,0,0);
-
-        Vector3 responseVectorSphere2 = velocity - finalImpulse;
+        responseVectorSphere1 = ((sphereCollision.velocityVector * firstSphereMass) - (responseVectorSphere2 * secondSphereMass))
+                                        / firstSphereMass;
 
         sphereCollision.velocityVector = responseVectorSphere1;
         sphereCollision.secondSphereVelocityVector = responseVectorSphere2;
