@@ -416,7 +416,10 @@ MonoBehaviour:
   firstSphereMass: 1
   secondSphereMass: 1
   sphereCollision: {fileID: 821203884}
-  coefficientOfRestitution: 0.649
+  responseVectorSphere2: {x: 0, y: 0, z: 0}
+  responseVectorSphere1: {x: 0, y: 0, z: 0}
+  force: {x: 0, y: 0, z: 5}
+  coefficientOfRestitution: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

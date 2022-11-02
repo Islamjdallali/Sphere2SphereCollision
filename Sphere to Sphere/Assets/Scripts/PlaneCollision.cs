@@ -10,6 +10,8 @@ public class PlaneCollision : MonoBehaviour
     public Vector3 velocityVector;
     public float velocityVectorMagnitude;
 
+    [SerializeField] private PlaneResponse responseVelocity;
+
     private float radius;
 
     private float SPVectorX;
@@ -22,6 +24,8 @@ public class PlaneCollision : MonoBehaviour
     private float spherePlaneAngleZ;
     private float spherePlaneAngleX;
 
+    private bool hascollided;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +33,8 @@ public class PlaneCollision : MonoBehaviour
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Bounds bounds = mesh.bounds;
         radius = bounds.extents.x;
+
+        hascollided = false;
     }
 
     // Update is called once per frame
@@ -57,10 +63,10 @@ public class PlaneCollision : MonoBehaviour
         {
             Vector3 addedvCY = vCY * velocityVector / velocityVectorMagnitude;
 
-            if (addedvCY.y >= 0)
+            if (addedvCY.y >= 0 && !hascollided)
             {
-                Debug.Log("Collided");
-                velocityVector = new Vector3(0,0,0);
+                velocityVector = responseVelocity.CollisionResponse(velocityVector,planeTransform);
+                hascollided = true;
             }
         }
     }
