@@ -32,6 +32,12 @@ public class MovingSphereCollision : MonoBehaviour
         float yPositionDifference = transform.position.y - otherSphere.position.y;
         float zPositionDifference = transform.position.z - otherSphere.position.z;
 
+        float angle = Vector3.Angle(velocityVector, otherSphere.position - transform.position);
+        angle = angle * Mathf.Deg2Rad;
+
+        float targetAngle = Vector3.Angle(secondSphereVelocityVector, transform.position - otherSphere.position);
+        targetAngle = targetAngle * Mathf.Deg2Rad;
+
         float xVectorDifference = velocityVector.x - secondSphereVelocityVector.x;
         float yVectorDifference = velocityVector.y - secondSphereVelocityVector.y;
         float zVectorDifference = velocityVector.z - secondSphereVelocityVector.z;
