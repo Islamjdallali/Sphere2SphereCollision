@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherSphere: {fileID: 1330206928}
   velocityVector: {x: -1, y: 0, z: 0}
-  secondSphereVelocityVector: {x: 1, y: -1, z: 0}
+  secondSphereVelocityVector: {x: 1, y: 0, z: 0}
 --- !u!1 &549032991
 GameObject:
   m_ObjectHideFlags: 0
