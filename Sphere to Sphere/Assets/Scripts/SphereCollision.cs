@@ -1,3 +1,4 @@
+using System.Transactions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,7 +57,9 @@ public class SphereCollision : MonoBehaviour
             if (collisionPoint <= 0)
             {
                 Debug.Log("Collision Detected");
-                sphereCollisionResponse.CollisionResponse(1 - angleZ,velocityVector);
+                sphereCollisionResponse.CollisionResponse(angleZ,velocityVector,gameObject.transform,secondSphere);
+                secondSphereVelocityVector = sphereCollisionResponse.responseVectorSphere2;
+                velocityVector = sphereCollisionResponse.responseVectorSphere1;
             }
         }
 
@@ -70,6 +73,9 @@ public class SphereCollision : MonoBehaviour
             if (collisionPoint <= 0)
             {
                 Debug.Log("Collision Detected");
+                // sphereCollisionResponse.CollisionResponse(angleX,velocityVector,gameObject.transform,secondSphere);
+                // velocityVector = sphereCollisionResponse.responseVectorSphere1;
+                // secondSphereVelocityVector = sphereCollisionResponse.responseVectorSphere2;
             }
         }
 
