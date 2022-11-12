@@ -13,12 +13,19 @@ public class MovingSphereCollision : MonoBehaviour
 
     private float radius;
 
+    private float dist;
+
+    [SerializeField] private MovingSphereResponse response;
+
+    [SerializeField] private bool collided;
+
     // Start is called before the first frame update
     void Start()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         Bounds bounds = mesh.bounds;
         radius = bounds.extents.x;
+        collided = false;
     }
 
     // Update is called once per frame
@@ -49,26 +56,33 @@ public class MovingSphereCollision : MonoBehaviour
         float t = (-b + Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c)))/(2 * a);
         float t2 = (-b - Mathf.Sqrt(Mathf.Pow(b,2) - (4 * a * c)))/(2 * a);
 
-        Debug.Log("t1 : " + t);
-        Debug.Log("t2 : " + t2);
-
         //if t is the correct solution
         if (t < t2)
         {
             if (t > 0 && t < 1)
             {
-                Debug.Log("Collision possible");
                 collisionPoint = transform.position + velocityVector * t;
             }
+
+            dist = Vector3.Distance(transform.position, collisionPoint);
         }
         else if (t2 < t)
         {
             if (t2 > 0 && t2 < 1)
             {
-                Debug.Log("Collision possible");
                 collisionPoint = transform.position + velocityVector * t;
-                Debug.Log("Collision Point : " + collisionPoint);
             }
+            dist = Vector3.Distance(transform.position, collisionPoint);
+        }
+
+
+        if (dist < 1 && collided == false)
+        {
+            Debug.Log("Collided");
+
+            velocityVector = response.CollisionResponse(angle, targetAngle, transform, otherSphere, velocityVector, secondSphereVelocityVector);
+            secondSphereVelocityVector = response.CollisionResponse(targetAngle, angle, otherSphere, transform, secondSphereVelocityVector, velocityVector);
+            collided = true;
         }
     }
 }

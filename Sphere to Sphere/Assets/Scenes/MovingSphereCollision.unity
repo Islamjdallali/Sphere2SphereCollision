@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 5700615}
   - component: {fileID: 5700614}
   - component: {fileID: 5700617}
+  - component: {fileID: 5700618}
   m_Layer: 0
   m_Name: Sphere 1
   m_TagString: Untagged
@@ -222,6 +223,23 @@ MonoBehaviour:
   otherSphere: {fileID: 1330206928}
   velocityVector: {x: -1, y: 0, z: 0}
   secondSphereVelocityVector: {x: 1, y: 0, z: 0}
+  response: {fileID: 5700618}
+  collided: 0
+--- !u!114 &5700618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0bc7719132216f4aaca31166da91c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coefficientOfRestitution: 0
+  mass: 1
+  targetMass: 1
 --- !u!1 &549032991
 GameObject:
   m_ObjectHideFlags: 0
